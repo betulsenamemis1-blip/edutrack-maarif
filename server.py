@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""EduTrack Maarif - Web Sunucusu"""
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json, os, webbrowser, threading, time
 
@@ -17,7 +16,7 @@ def veri_kaydet(data):
 
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
-        pass  # Sessiz mod
+        pass
 
     def do_GET(self):
         if self.path == "/" or self.path == "/index.html":
@@ -56,16 +55,9 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
-def acik_tarayici():
-    time.sleep(1)
-    webbrowser.open("http://localhost:8765")
-
 if __name__ == "__main__":
-    print("=" * 50)
-    print("  EduTrack Maarif başlatılıyor...")
-    print("  http://localhost:8765 adresinde açılacak")
-    print("  Kapatmak için: Ctrl+C")
-    print("=" * 50)
-    threading.Thread(target=acik_tarayici, daemon=True).start()
-    server = HTTPServer(("localhost", 8765), Handler)
+    port = int(os.environ.get("PORT", 8765))
+    host = "0.0.0.0"
+    print(f"EduTrack Maarif - Port {port}")
+    server = HTTPServer((host, port), Handler)
     server.serve_forever()
